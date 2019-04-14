@@ -1,0 +1,131 @@
+#addBtn{
+    margin-top: 10px;
+}
+#productTable{
+    color:white;
+}
+
+
+body{
+    background-image: url(C:/VsCode_Projects/vue-crud/img/image-back.jpg);
+    background-repeat: repeat;
+    background-size: 150px;
+}
+
+footer{
+    color:white;
+}
+
+
+.navbar-light .navbar-nav .nav-link {
+    white-space: nowrap;
+    color: black;
+    font-size: 18px;
+    
+}
+
+@media screen and (max-width: 768px){
+    fieldset{
+        display: inline-block;
+        border-right: 1px solid black;
+        vertical-align: top;
+        padding: 0 5px;
+
+    }
+    legend{
+        margin-right: 5px;
+    }
+}
+
+.page-header__navbar{
+    background:darkkhaki;
+
+}
+
+.page-header__navbar-search {
+    height: 50px;
+    border: 1px solid;
+    flex-wrap: nowrap;
+}
+
+.page-header__navbar-search .form-control {
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    font-size: 1.2rem;
+}
+
+.page-header__navbar-search button {
+    margin: 5px;
+    padding: 0;
+    border-color: black;
+}
+
+.page-header__navbar-search i {
+    display: block;
+    padding: 10px;
+}
+
+.page-header__cart-btn {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin-left: 30px;
+    border: none;
+    border-radius: 0;
+}
+
+.page-title__filter {
+    width: 100%;
+    margin-top: 6px;
+    padding: 3px 10px 5px;
+    font-size: 1.25rem;
+}
+
+
+
+.sidebar-filter .form-check {
+    margin: 10px 0;
+}
+
+.container{
+    color:white;
+}
+
+h2 {
+    color:white;
+}
+
+.sidebar-filter{
+    background:brown;
+    padding: 15px 30px 30px;
+
+}
+
+.sidebar-filter__more{
+    display: block;
+    color:black;
+    margin-bottom: 30px;
+    font-size: 1.25rem;
+}
+
+
+img{
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.sidebar-filer__submit{
+    border: 1px solid #ffffff;
+    border-radius: 0;
+    background-color: #2c71b6;
+}
+
+.page-footer__copyright {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+    font-size: 1.25rem;
+}
