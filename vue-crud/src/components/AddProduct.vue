@@ -14,7 +14,7 @@
          <textarea class="form-control" cols="45" rows="10" v-model="description"></textarea>
         <button class="btn btn-success"
                 :disabled="toggleButton"
-                @click="$emit('pushProduct',`${name}`,`${price}`,`${type}`)">Добавить</button>
+                @click="$emit('pushProduct',`${name}`,`${price}`,`${type}`,`${description}`)">Добавить</button>
         <button class="btn btn-primary" @click="$emit('backToList')">Вернуться к списку</button>
     </form>
 </div>

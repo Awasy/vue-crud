@@ -7,6 +7,7 @@ import AddProduct from './components/AddProduct.vue'
 import EditProduct from './components/EditProduct.vue'
 import TableProducts from './components/TableProducts.vue'
 import ShowProduct from './components/ShowProduct.vue'
+import Sidebar from './components/Sidebar.vue'
 
 
 import BootstrapVue from 'bootstrap-vue'
@@ -23,6 +24,7 @@ Vue.component('addProduct', AddProduct);
 Vue.component('editProduct', EditProduct);
 Vue.component('tableProducts', TableProducts);
 Vue.component('showProduct', ShowProduct);
+Vue.component('sidebar', Sidebar);
 
 
 new Vue({

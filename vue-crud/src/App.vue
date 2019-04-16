@@ -1,38 +1,67 @@
 <template>
-  <div class="container-fluid">
-    <table-products v-if="state == 'tableProducts'"
-                    :products="products"
-                    @toAddProduct="toAddProduct"
-                    @toEditProduct="toEditProduct"
-                    @showModalProduct="showModalProduct"
-                    @showProduct="showProduct"></table-products>
-    <add-product v-else-if="state == 'addProduct'"
-                :typesProduct="typesProduct"
-                 @pushProduct="pushProduct"
-                 @backToList="backToList"></add-product>
-    <edit-product v-else-if="state == 'editProduct'"
-                  @updateProduct="updateProduct"
-                  @backToList="backToList"
-                  :typesProduct="typesProduct"
-                  :product="product"
-                  :id="product.id"
-                  ></edit-product>
-    <show-product :product="product" 
-    v-else-if="state == 'showProduct'"
-    @backToList="backToList"></show-product>
-    <div v-else>Undefined</div>
+ <div class="row">
+  <main class="col-lg-9 order-lg-2">
+                
+  <div class="row page-title">
+        <div class="col-md-8">
+          <h1 class="page-title__header">Ноутбуки и планшеты</h1>
+        </div>
+        <div class="col-md-4 actions">
+          <select :disabled="disableSortComp"  @change="getSortProducts" v-model="sortElement" id="page-title__filter" class="page-title__filter">
+            <option  value="default">Укажите сортировку</option>
+            <option value="price">sort by price</option>
+            <option value="name">sort by name</option>
+            <option value="type">sort by type</option>
+          </select>
+        </div>
+  </div>   
+  <div class="table-responsive">
+    <div class="row">
+      <div class="container-fluid">
+        <table-products v-if="state == 'tableProducts'"
+                        :products="products"
+                        @toAddProduct="toAddProduct"
+                        @toEditProduct="toEditProduct"
+                        @showModalProduct="showModalProduct"
+                        @showProduct="showProduct"></table-products>
+        <add-product v-else-if="state == 'addProduct'"
+                    :typesProduct="typesProduct"
+                    @pushProduct="pushProduct"
+                    @backToList="backToList"></add-product>
+        <edit-product v-else-if="state == 'editProduct'"
+                      @updateProduct="updateProduct"
+                      @backToList="backToList"
+                      :typesProduct="typesProduct"
+                      :product="product"
+                      :id="product.id"
+                      ></edit-product>
+        <show-product :product="product" 
+        v-else-if="state == 'showProduct'"
+        @backToList="backToList"></show-product>
+        <div v-else>Undefined</div>
 
-    <div>
-      <button @click="getProducts">Request</button>
-    <b-modal size="mt" v-model="showModal"  hide-footer title="Подтверждение действия">
-      <div class="d-block text-center">
-        <h3>Вы действительно хотите удалить продукт?</h3>
+        <!-- <div>
+          <button @click="getProducts">Request</button>
+        </div> -->
+
+        <b-modal class="modal-product" size="mt" v-model="showModal"  hide-footer title="Подтверждение действия">
+          <div class="d-block text-center">
+            <h3>Вы действительно хотите удалить продукт?</h3>
+          </div>
+          <b-button class="btn-yes" variant="outline-success" block  @click="deleteProduct">Да</b-button>
+          <b-button class="btn-no" variant="outline-danger" block  @click="showModal = false">Нет</b-button>
+        </b-modal>
+      
+
+          </div>
+        </div>
       </div>
-      <b-button class="btn-yes" variant="outline-success" block  @click="deleteProduct">Да</b-button>
-      <b-button class="btn-no" variant="outline-danger" block  @click="showModal = false">Нет</b-button>
-    </b-modal>
-    </div>
-  </div>
+    </main>
+    <sidebar>
+
+    </sidebar>
+     
+</div>
 </template>
 
 
@@ -56,7 +85,9 @@ export default {
       typesProduct:['Планшет','Смартфон','Ноутбук','Маршрутизатор'],
       showModal:false,
       serverData:[],
-      indexProduct:0
+      indexProduct:0,
+      sortElement:'default',
+      disableSortComp:false
     }
   },
   methods: {
@@ -77,8 +108,8 @@ export default {
       this.indexProduct = index
 
     },
-    pushProduct(name,price,type){
-      let product = new Product(this.products.length + 1,name ,price,type);
+    pushProduct(name,price,type,description){
+      let product = new Product(this.products.length + 1,name ,price,type,description);
       this.products.push(product);
      
      this.axios.post('http://localhost:5000/api/products',JSON.stringify(product),{headers:{'Content-Type': 'application/json'}})
@@ -117,10 +148,23 @@ export default {
        console.log(response);
        this.serverData = response.data;
        for (const iterator of this.serverData) {
-          this.products.push(new Product(iterator.id,iterator.name,iterator.price,iterator.type));
+          this.products.push(new Product(iterator.id,iterator.name,iterator.price,iterator.type,iterator.description));
        }
       
      }, (response) => console.log(reponse))
+    },
+    getSortProducts(){
+      this.disableSortComp = true;
+      if(this.sortElement != 'default'){
+          this.axios.get(`http://localhost:5000/api/products/getsortproducts/${this.sortElement}`).then(response => {
+              this.serverData = response.data;
+              this.products = this.serverData.map(obj => new Product(obj.id,obj.name,obj.price,obj.type,obj.description));
+              this.disableSortComp = false;
+          }, response => this.disableSortComp = false)
+      }
+      else{
+        this.disableSortComp = false;
+      }
     }
   },
 }
@@ -137,14 +181,9 @@ class Product{
 </script>
 
 <style scoped>
-.container-fluid{
-  width: 100%;
+.modal-product{
+  color:black;
 }
-.btn-yes{
-  
 
-}
-.btn-no{
-  
-}
+
 </style>
